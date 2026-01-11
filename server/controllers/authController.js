@@ -1,7 +1,7 @@
 import User from "../models/User.js";
 import bcryptjs, { hashSync } from "bcryptjs";
 
-export const singup = async (req, res) => {
+export const singup = async (req, res, next) => {
   const { username, email, password } = req.body;
   const hashPassword = hashSync(password, 10);
   const newUser = new User({ username, email, password: hashPassword });
@@ -11,6 +11,6 @@ export const singup = async (req, res) => {
       message: "data added successfully",
     });
   } catch (error) {
-    res.status(500).json(error.message);
+    next(error);
   }
 };
